@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteBase /proyecto_prog_jap_zan/
+RewriteCond %{REQUEST_FILENAME} !-f 
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteRule ^(.*) index.php
