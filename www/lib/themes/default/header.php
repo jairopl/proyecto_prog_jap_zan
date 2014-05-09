@@ -28,18 +28,35 @@
 		<div class="topbar">
 			<div class="fill">
 				<div class="container">
-					<a class="brand" href="#">ZanPHP.com</a>
+					<a class="brand" href="#">JAPL</a>
 					
-					<ul class="nav">
-						<li class="active"><a href="#">Home</a></li>
-						<li><a href="#about">About</a></li>
-						<li><a href="#contact">Contact</a></li>
-					</ul>
+					<?php 
+					$enlaces = array(
+						'default' => 'Inicio',
+						'visitante' => 'Visitantes',
+						'equipos' => 'Equipos',
+						'usuarios' => 'Usuarios del sistema',
+					);
+					$lista = array();
+					//____(whichApplication());
+					global $ZP;
+					$url_base = getDomain() . '/index.php/';
+					foreach ($enlaces as $link => $nombre) {
+						$tmp = array(
+							'item' => a($nombre, $url_base . $link),
+						);
+						if (whichApplication() == $link) {
+							$tmp['class'] = 'active';
+						}
+						$lista[] = $tmp;
+					}
+					echo ul($lista, NULL, 'nav');
+					?>
           
 					<form action="#" class="pull-right">
-						<input class="input-small" type="text" placeholder="Username">
-						<input class="input-small" type="password" placeholder="Password">
-						<button class="btn" type="submit">Sign in</button>
+						<input class="input-small" type="text" placeholder="Usuario">
+						<input class="input-small" type="password" placeholder="Contraseña">
+						<button class="btn" type="submit">Ingresar</button>
 					</form>
 				</div>
 			</div>
@@ -48,7 +65,7 @@
 		<div class="container">
 			<div class="content">
 				<div class="page-header">
-					<h1>ZanPHP <small>PHP5 Framework</small></h1>
+					<h1>Control de acceso <small>JAPL</small></h1>
 				</div>
 				
 				<div class="row">

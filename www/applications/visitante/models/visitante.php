@@ -16,9 +16,8 @@ class Visitante_Model extends ZP_Model {
 		$this->table = "visitante";
 	}
 
-	public function contact($id) {
+	public function getAll($limit = 10) {
 		$data = $this->Db->findAll($this->table);
-
 		return $data;
 	}
 	
