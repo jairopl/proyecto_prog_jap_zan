@@ -3,10 +3,12 @@
  * Access from index.php:
  */
 
-class Visitante_Controller extends ZP_Controller {
+class Visitante_Controller extends ZP_Load {
   
   public function __construct() {
     $this->app("visitante");
+
+    $this->helper('debugging');
 
     $this->Templates = $this->core("Templates");
 
@@ -19,10 +21,7 @@ class Visitante_Controller extends ZP_Controller {
   }
 
   public function index() {
-    $vars["message"] = "Mensaje temporal 2";
-    $vars["view"]  = $this->view("show", TRUE);
-    
-    $this->render("content", $vars);
+    $this->lista();
   }
   
   public function lista() {
@@ -32,23 +31,47 @@ class Visitante_Controller extends ZP_Controller {
 
     $vars["view"] = $this->view("tabla_datos", TRUE);
 
-
     $this->render("content", $vars);
   }
   
   public function agregar() {
-    $this->helpers('forms');
-    $datos = array(
-      'documento' => '1.210.211.123',
-      'nombre' => 'Jairo',
-      'apellido' => 'Prieto',
-      'telefono' => '313 234',
-    );
+    $this->helper(array('forms', 'html'));
+
+    $vars["tipo_doc"] = $this->TipoDoc_Model->getDataForSelect('CC');
+
+    $vars["roles"] = $this->Rol_Model->getDataForSelect(1);
+
+    $vars["view"]  = $this->view("editar", TRUE);
+    
+    $this->render("content", $vars);
+  }
+
+  public function guardar() {
+    if (POST('guardar')) {
+      //guardar registro
+      $this->Visitante_Model->save();
+    } elseif (POST('cancel')) {
+      redirect('visitante');
+    } else {
+      redirect('visitante/agregar');
+    }
+    // showAlert("El registro se guardó satisfactoriamente.", 'index');
+  }
+
+  public function editar($cc = NULL) {
+    if (empty($cc)) redirect('visitante/lista');
+
+    $this->helper(array('forms', 'html'));
+    $datos = $this->Visitante_Model->getByCC($cc);
+
     $vars["datos"] = $datos;
+    $vars['editar'] = TRUE;
 
-    $vars["tipo_doc"] = $this->TipoDoc_Model->getDataForSelect('TI');
+    $vars["tipo_doc"] = $this->TipoDoc_Model->getDataForSelect($datos['tipo_documento']);
 
-    $vars["roles"] = $this->Rol_Model->getDataForSelect(2);
+    $vars["roles"] = $this->Rol_Model->getDataForSelect($datos['rol']);
+
+    $vars["view"]  = $this->view("editar", TRUE);
 
     $vars["view"]  = $this->view("editar", TRUE);
     

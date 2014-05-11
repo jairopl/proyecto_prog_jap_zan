@@ -1,8 +1,18 @@
     <?php
-    print formOpen();
+    print formOpen("visitante/guardar");
     
+    if (!empty($editar)) {
+        $output = formInput(array(
+            'name' => 'editar',
+            'type' => 'hidden',
+            'value' => '1',
+            ));
+        print $output;
+    }
+
+
     $output = formLabel('documento', 'Número documento', FALSE); 
-    $output .= formInput(array(
+    $doc_input = array(
         'class' => 'form-control',
         'id' => 'documento',
         'maxlength' => '15',
@@ -10,7 +20,9 @@
         'required' => 'required',
         'type' => 'text',
         'value' => isset($datos['documento']) ? $datos['documento'] : '',
-        ));
+        );
+    if (!empty($editar)) { $doc_input['readonly'] = 'readonly'; }
+    $output .= formInput($doc_input);
     $field_div = div('form-group', NULL, NULL, $output);
     print $field_div;
 
@@ -21,26 +33,26 @@
     $field_div = div('form-group', NULL, NULL, $output);
     print $field_div;
 
-    $output = formLabel('nombre', 'Nombres', FALSE); 
+    $output = formLabel('nombres', 'Nombres', FALSE); 
     $output .= formInput(array(
         'class' => 'form-control',
-        'id' => 'nombre',
-        'name' => 'nombre',
+        'id' => 'nombres',
+        'name' => 'nombres',
         'required' => 'required',
         'type' => 'text',
-        'value' => isset($datos['nombre']) ? $datos['nombre'] : '',
+        'value' => isset($datos['nombres']) ? $datos['nombres'] : '',
         ));
     $field_div = div('form-group', NULL, NULL, $output);
     print $field_div;
 
-    $output = formLabel('apellido', 'Apellidos', FALSE); 
+    $output = formLabel('apellidos', 'Apellidos', FALSE); 
     $output .= formInput(array(
         'class' => 'form-control',
-        'id' => 'apellido',
-        'name' => 'apellido',
+        'id' => 'apellidos',
+        'name' => 'apellidos',
         'required' => 'required',
         'type' => 'text',
-        'value' => isset($datos['apellido']) ? $datos['apellido'] : '',
+        'value' => isset($datos['apellidos']) ? $datos['apellidos'] : '',
         ));
     $field_div = div('form-group', NULL, NULL, $output);
     print $field_div;
@@ -64,7 +76,7 @@
     $field_div = div('form-group', NULL, NULL, $output);
     print $field_div;
 
-    print formSave("guardar");
+    print formAction("guardar");
 
     ?>
     <?php print formClose(); ?>

@@ -4,7 +4,7 @@
  */
 
 
-class Default_Controller extends ZP_Controller {
+class Default_Controller extends ZP_Load {
 	
 	public function __construct() {
 		$this->app("default");
@@ -17,7 +17,7 @@ class Default_Controller extends ZP_Controller {
 	}
 	
 	public function index() {	
-		$vars["message"] = __(_("Hello World"));
+		$vars["message"] = __("Hello World");
 		$vars["view"]	 = $this->view("show", TRUE);
 		
 		$this->render("content", $vars);

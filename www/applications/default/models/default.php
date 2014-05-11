@@ -2,11 +2,11 @@
 /**
  * Access from index.php:
  */
-if(!defined("_access")) {
+if(!defined("ACCESS")) {
 	die("Error: You don't have permission to access here...");
 }
 
-class Default_Model extends ZP_Model {
+class Default_Model extends ZP_Load {
 	
 	public function __construct() {
 		$this->Db = $this->db();

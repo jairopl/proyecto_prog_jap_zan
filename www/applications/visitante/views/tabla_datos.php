@@ -1,4 +1,4 @@
-<table>
+<table class="table table-striped">
 <tr>
 <?php 
 foreach ($headers as $h) {
@@ -7,7 +7,7 @@ foreach ($headers as $h) {
 ?>
 </tr>
 <?php 
-if (isset($data)) {
+if (isset($data) && is_array($data)) {
   foreach ($data as $fila) {
     echo "<tr>";
     foreach ($fila as $celda) {

@@ -1,0 +1,16 @@
+--- 09/05/2014 ---
+message_from_the_rewrite_show_view
+all_rights_reserved
+powered_by
+error_message
+guardar
+cancel
+nuevo_contacto_agregado_con_-eacute;xito
+error_code
+error_file
+error_line
+--- 10/05/2014 ---
+guardar
+cancel
+all_rights_reserved
+powered_by

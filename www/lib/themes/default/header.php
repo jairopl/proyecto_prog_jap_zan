@@ -1,21 +1,13 @@
-<?php 
-	if(!defined("_access")) {
-		die("Error: You don't have permission to access here..."); 
-	}
-	
-	if(isMobile()) {
-		include "mobile/header.php";
-	} else {
-?>
 <!DOCTYPE html>
-<html lang="<?php print get("webLang"); ?>">
+<html lang="<?php echo _get("webLang"); ?>">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<title><?php print $this->getTitle(); ?></title>
+		<title><?php echo $this->getTitle(); ?></title>
 		
-		<link href="<?php print path("vendors/css/frameworks/bootstrap/bootstrap.min.css", "zan"); ?>" rel="stylesheet">
-		<link href="<?php print $this->themePath; ?>/css/style.css" rel="stylesheet">
-		<?php print $this->getCSS(); ?>
+		<link href="<?php echo path("vendors/css/frameworks/bootstrap/bootstrap.min.css", "zan"); ?>" rel="stylesheet">
+		<link href="<?php echo $this->themePath; ?>/css/style.css" rel="stylesheet">
+		
+		<?php echo $this->getCSS(); ?>
 		
 		<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
 			<!--[if lt IE 9]>
@@ -25,48 +17,42 @@
 	</head>
 
 	<body>
-		<div class="topbar">
-			<div class="fill">
-				<div class="container">
-					<a class="brand" href="#">JAPL</a>
-					
-					<?php 
-					$enlaces = array(
-						'default' => 'Inicio',
-						'visitante' => 'Visitantes',
-						'equipos' => 'Equipos',
-						'usuarios' => 'Usuarios del sistema',
-					);
-					$lista = array();
-					//____(whichApplication());
-					global $ZP;
-					$url_base = getDomain() . '/index.php/';
-					foreach ($enlaces as $link => $nombre) {
-						$tmp = array(
-							'item' => a($nombre, $url_base . $link),
-						);
-						if (whichApplication() == $link) {
-							$tmp['class'] = 'active';
-						}
-						$lista[] = $tmp;
-					}
-					echo ul($lista, NULL, 'nav');
-					?>
-          
-					<form action="#" class="pull-right">
-						<input class="input-small" type="text" placeholder="Usuario">
-						<input class="input-small" type="password" placeholder="Contraseña">
-						<button class="btn" type="submit">Ingresar</button>
-					</form>
-				</div>
-			</div>
-		</div>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button"class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active">
+                <a href="http://zanphp.com">ZanPHP.com</a>
+              </li>
+              <li class="">
+                <a href="<?php print _get("webBase"); ?>">Inicio</a>
+              </li>
+              <li class="">
+                <a href="<?php print _get("webBase"); ?>/visitante">Visitante</a>
+              </li>
+              <li class="">
+                <a href="<?php print _get("webBase"); ?>/equipos">Equipos</a>
+              </li>
+              <li class="">
+                <a href="<?php print _get("webBase"); ?>/usuarios">Usuario del sistema</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
 
 		<div class="container">
 			<div class="content">
 				<div class="page-header">
-					<h1>Control de acceso <small>JAPL</small></h1>
+          <br /><br />
+					<h1>Accesos UNAD <small>Jairo Prieto</small></h1>
 				</div>
 				
 				<div class="row">
-<?php } ?>

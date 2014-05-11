@@ -2,16 +2,16 @@
 /**
  * Access from index.php:
  */
-if(!defined("_access")) {
+if(!defined("ACCESS")) {
   die("Error: You don't have permission to access here...");
 }
 
-class TipoDoc_Model extends ZP_Model {
+class TipoDoc_Model extends ZP_Load {
   
   public function __construct() {
     $this->Db = $this->db();
     
-    $this->helpers();
+    // $this->helpers();
   
     $this->table = "tipo_doc";
   }
