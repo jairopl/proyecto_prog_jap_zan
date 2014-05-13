@@ -10,16 +10,15 @@
         print $output;
     }
 
-
-    $output = formLabel('documento', 'Número documento', FALSE); 
+    $output = formLabel('identificacion', 'Número identificación', FALSE); 
     $doc_input = array(
         'class' => 'form-control',
-        'id' => 'documento',
+        'id' => 'identificacion',
         'maxlength' => '15',
-        'name' => 'documento',
+        'name' => 'identificacion',
         'required' => 'required',
         'type' => 'text',
-        'value' => isset($datos['documento']) ? $datos['documento'] : '',
+        'value' => isset($datos['identificacion']) ? $datos['identificacion'] : '',
         );
     if (!empty($editar)) { $doc_input['readonly'] = 'readonly'; }
     $output .= formInput($doc_input);
@@ -45,14 +44,26 @@
     $field_div = div('form-group', NULL, NULL, $output);
     print $field_div;
 
-    $output = formLabel('apellidos', 'Apellidos', FALSE); 
+    $output = formLabel('apellido1', 'Apellido 1', FALSE); 
     $output .= formInput(array(
         'class' => 'form-control',
-        'id' => 'apellidos',
-        'name' => 'apellidos',
+        'id' => 'apellido1',
+        'name' => 'apellido1',
         'required' => 'required',
         'type' => 'text',
-        'value' => isset($datos['apellidos']) ? $datos['apellidos'] : '',
+        'value' => isset($datos['apellido1']) ? $datos['apellido1'] : '',
+        ));
+    $field_div = div('form-group', NULL, NULL, $output);
+    print $field_div;
+
+    $output = formLabel('apellido2', 'Apellido 2', FALSE); 
+    $output .= formInput(array(
+        'class' => 'form-control',
+        'id' => 'apellido2',
+        'name' => 'apellido2',
+        'required' => 'required',
+        'type' => 'text',
+        'value' => isset($datos['apellido2']) ? $datos['apellido2'] : '',
         ));
     $field_div = div('form-group', NULL, NULL, $output);
     print $field_div;
@@ -78,5 +89,5 @@
 
     print formAction("guardar");
 
-    ?>
-    <?php print formClose(); ?>
+    print formClose();
+?>

@@ -16,7 +16,7 @@ class TipoDoc_Model extends ZP_Load {
     $this->table = "tipo_doc";
   }
 
-  public function getAll($limit = 10) {
+  public function getAll() {
     $data = $this->Db->findAll($this->table);
     return $data;
   }

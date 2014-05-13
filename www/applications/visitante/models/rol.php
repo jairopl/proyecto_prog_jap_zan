@@ -13,10 +13,10 @@ class Rol_Model extends ZP_Load {
     
     // $this->helpers();
   
-    $this->table = "tipo_visitante";
+    $this->table = "tipo_usuario";
   }
 
-  public function getAll($limit = 10) {
+  public function getAll() {
     $data = $this->Db->findAll($this->table);
     return $data;
   }
@@ -27,8 +27,8 @@ class Rol_Model extends ZP_Load {
 
     foreach ($tiposDocumentos as $val) {
       $temp = array(
-        'value' => $val['idtipo_visitante'],
-        'option' => $val['tipo_visitante'],
+        'value' => $val['idtipo_usuario'],
+        'option' => $val['tipo_usuario'],
         );
       if ($temp['value'] == $selected)
         $temp['selected'] = 'selected';

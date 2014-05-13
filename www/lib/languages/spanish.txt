@@ -14,3 +14,13 @@ guardar
 cancel
 all_rights_reserved
 powered_by
+--- 11/05/2014 ---
+all_rights_reserved
+powered_by
+--- 12/05/2014 ---
+all_rights_reserved
+powered_by
+guardar
+cancel
+eliminar
+error_message

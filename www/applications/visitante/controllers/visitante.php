@@ -25,10 +25,11 @@ class Visitante_Controller extends ZP_Load {
   }
   
   public function lista() {
-    $vars["headers"] = array('Documento', 'Tipo documento', 'Nombres', 'Apellidos', 'Rol', 'Teléfono');
-    $datos = $this->Visitante_Model->getAll();
+    $this->helper('tabla');
+    $vars["headers"] = array('Documento', 'Tipo documento', 'Nombres', 'Apellido', 'Rol', 'Teléfono');
+    $datos = $this->Visitante_Model->getTableData();
     $vars["data"] = $datos;
-
+    
     $vars["view"] = $this->view("tabla_datos", TRUE);
 
     $this->render("content", $vars);
@@ -63,17 +64,25 @@ class Visitante_Controller extends ZP_Load {
 
     $this->helper(array('forms', 'html'));
     $datos = $this->Visitante_Model->getByCC($cc);
-
+    
     $vars["datos"] = $datos;
     $vars['editar'] = TRUE;
 
     $vars["tipo_doc"] = $this->TipoDoc_Model->getDataForSelect($datos['tipo_documento']);
 
-    $vars["roles"] = $this->Rol_Model->getDataForSelect($datos['rol']);
+    $vars["roles"] = $this->Rol_Model->getDataForSelect($datos['tipo_user']);
 
     $vars["view"]  = $this->view("editar", TRUE);
+    
+    $this->render("content", $vars);
+  }
 
-    $vars["view"]  = $this->view("editar", TRUE);
+  public function eliminar($cc) {
+    $this->helper(array('forms', 'html'));
+    $datos = $this->Visitante_Model->getByCC($cc);
+
+    $vars['action'] = "eliminar a {$datos['nombres']} {$datos['apellido1']} {$datos['apellido2']} ({$datos['identificacion']})";
+    $vars["view"]  = $this->view("confirmacion", TRUE);
     
     $this->render("content", $vars);
   }

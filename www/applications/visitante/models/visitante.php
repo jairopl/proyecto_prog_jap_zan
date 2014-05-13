@@ -16,8 +16,13 @@ class Visitante_Model extends ZP_Load {
 		$this->table = "visitante";
 	}
 
-	public function getAll($limit = 10) {
-		$data = $this->Db->findAll($this->table);
+	public function getTableData() {
+		//$data = $this->Db->findAll($this->table);
+
+    $this->Db->select("identificacion, descripcion, nombres, CONCAT(apellido1, ' ', apellido2), tipo_usuario, telefono");
+    $this->Db->join('tipo_doc', 'tipo_doc = idtipo_doc');
+    $this->Db->join('tipo_usuario', 'tipo_user = idtipo_usuario');
+    $data = $this->Db->get($this->table);
 		return $data;
 	}
 	
