@@ -24,3 +24,9 @@ guardar
 cancel
 eliminar
 error_message
+--- 14/05/2014 ---
+all_rights_reserved
+powered_by
+guardar
+cancel
+error_message
