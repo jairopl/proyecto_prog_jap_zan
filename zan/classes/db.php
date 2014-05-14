@@ -201,7 +201,10 @@ class ZP_Db extends ZP_Load
 			$this->table($table);
 		}
 		
-		return $this->Database->delete($this->table, $ID, $this->primaryKey);
+		// Cambio hecho por JAPL el 14/05/2014
+		// return $this->Database->delete($this->table, $ID, $this->primaryKey);
+		return $this->Database->exec("DELETE FROM {$this->table} WHERE {$this->primaryKey} = '$ID'");;
+		//Fin del cambio JAP
 	}
 	
 	public function deleteBy($field = null, $value = null, $table = null, $limit = 1)
@@ -549,12 +552,11 @@ class ZP_Db extends ZP_Load
 		// Cambio hecho por JAPL el 09/05/2014
 		// $this->Rs = $this->Database->insert($table, $_fields, $_values);
 		$st = $this->Database->prepare($query);
-		$st->execute();
-		//Fin del cambio JAP
 
-		if ($this->Rs) {
+		if ($st->execute()) {
 			return ($this->PDO) ? $this->Database->lastInsertId() : $this->Database->insertID();
 		}
+		//Fin del cambio JAP
 		
 		return false;
 	}

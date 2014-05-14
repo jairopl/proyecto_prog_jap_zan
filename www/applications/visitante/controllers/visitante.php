@@ -68,7 +68,7 @@ class Visitante_Controller extends ZP_Load {
     $vars["datos"] = $datos;
     $vars['editar'] = TRUE;
 
-    $vars["tipo_doc"] = $this->TipoDoc_Model->getDataForSelect($datos['tipo_documento']);
+    $vars["tipo_doc"] = $this->TipoDoc_Model->getDataForSelect($datos['tipo_doc']);
 
     $vars["roles"] = $this->Rol_Model->getDataForSelect($datos['tipo_user']);
 
@@ -81,10 +81,17 @@ class Visitante_Controller extends ZP_Load {
     $this->helper(array('forms', 'html'));
     $datos = $this->Visitante_Model->getByCC($cc);
 
-    $vars['action'] = "eliminar a {$datos['nombres']} {$datos['apellido1']} {$datos['apellido2']} ({$datos['identificacion']})";
-    $vars["view"]  = $this->view("confirmacion", TRUE);
-    
-    $this->render("content", $vars);
+    if (POST('eliminar')) {
+      $this->Visitante_Model->delete($cc);
+    } elseif (POST('cancel')) {
+      redirect("visitante");
+    } else {
+      $vars['action'] = "eliminar a {$datos['nombres']} {$datos['apellido1']} {$datos['apellido2']} ({$datos['identificacion']})";
+      $vars['url'] = 'visitante/eliminar/' . $cc;
+      $vars["view"]  = $this->view("confirmacion", TRUE);
+      
+      $this->render("content", $vars);
+    }
   }
 }
 ?>

@@ -30,3 +30,4 @@ powered_by
 guardar
 cancel
 error_message
+eliminar

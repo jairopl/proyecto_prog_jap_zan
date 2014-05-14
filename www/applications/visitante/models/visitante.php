@@ -28,26 +28,40 @@ class Visitante_Model extends ZP_Load {
 	
 	public function save() {
 		$this->helper('alerts');
-		if (!POST("documento")) {
+		if (!POST("identificacion")) {
 			redirect('visitante/agregar');
-		} elseif (!isNumber(POST("telefono"))) {
+		} elseif (POST("telefono") && !isNumber(POST("telefono"))) {
 			showAlert("El teléfono debe ser un numero.", 'agregar');
 		}
     $data = array(
-			"documento"      => POST("documento"),
-			"tipo_documento" => POST("tipo_documento"),
-			"nombres"        => POST("nombre"),
-			"apellidos"      => POST("apellido"),
-			"rol"            => POST("rol_usuario"),
+			"identificacion" => POST("identificacion"),
+			"tipo_doc"       => POST("tipo_documento"),
+			"nombres"        => POST("nombres"),
+			"apellido1"      => POST("apellido1"),
+			"apellido2"      => POST("apellido2"),
+			"tipo_user"      => POST("rol_usuario"),
 			"telefono"       => POST("telefono"),
 		);
+		
+		$ejecutado = 1;
 		if (POST("editar")) {
 			// Hacer que se actualice
+			$ejecutado = $this->Db->update($this->table, $data, POST("identificacion"), 'identificacion');
 		} else {
-			$this->Db->insert($this->table, $data);
+			$ejecutado = $this->Db->insert($this->table, $data);
 		}
 
-		showAlert("El registro se guardó satisfactoriamente.", 'index');
+		if ($ejecutado !== false) {
+			showAlert("El registro se guardó satisfactoriamente.", 'index');
+		} else {
+			showAlert("Se presentó un problema al guardar el registro.", 'index');
+		}
+	}
+
+	public function delete($id) {
+		$this->helper('alerts');
+		$r = $this->Db->delete($id, $this->table);
+		redirect('visitante/index');
 	}
 
 	public function getByCC($cc) {

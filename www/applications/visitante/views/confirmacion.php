@@ -1,6 +1,6 @@
 <p>¿Está seguro que desea <?php print $action; ?>?</p>
 <?php
-  print formOpen("visitante/guardar");
+  print formOpen($url);
   
   print formAction("eliminar");
 
