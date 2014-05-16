@@ -68,4 +68,8 @@ class Visitante_Model extends ZP_Load {
 		$data = $this->Db->find($cc, $this->table);
 		return $data[0];
 	}
+
+	public function search($text) {
+		// TODO: Hacer que busque por nombres y apellidos
+	}
 }

@@ -13,14 +13,23 @@ class Default_Controller extends ZP_Load {
 
 		$this->Templates->theme();
 
+    $this->helper('debugging');
+
 		#$this->Default_Model = $this->model("Default_Model");
 	}
 	
 	public function index() {	
-		$vars["message"] = __("Hello World");
-		$vars["view"]	 = $this->view("show", TRUE);
-		
-		$this->render("content", $vars);
+		if (POST("buscar")) {
+			$by = POST("by_visitant");
+			$by = str_replace(' ', '-', $by);
+			redirect("visitante/buscar/" . $by);
+		} else {
+			$this->helper(array('forms', 'html'));
+
+			$vars["view"]	 = $this->view("inicio", TRUE);
+			
+			$this->render("content", $vars);
+		}
 	}
 
 	public function test($param1 = "Hola", $param2 = "Adios") {
