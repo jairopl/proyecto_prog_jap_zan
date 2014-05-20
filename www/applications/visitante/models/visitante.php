@@ -70,6 +70,12 @@ class Visitante_Model extends ZP_Load {
 	}
 
 	public function search($text) {
-		// TODO: Hacer que busque por nombres y apellidos
+		// TODO: hacer que busque palabras independientes
+		$this->Db->select("identificacion, tipo_doc, nombres, apellido1, apellido2, tipo_usuario");
+		$this->Db->join('tipo_usuario', 'tipo_user = idtipo_usuario');
+		$this->Db->where("nombres LIKE '%$text%' OR
+			apellido1 LIKE '%$text%' OR apellido2 LIKE '%$text%'
+			OR identificacion LIKE '%$text%'");
+		return $this->Db->get($this->table);
 	}
 }

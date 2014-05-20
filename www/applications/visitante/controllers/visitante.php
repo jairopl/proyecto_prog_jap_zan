@@ -96,9 +96,13 @@ class Visitante_Controller extends ZP_Load {
 
   public function buscar($text) {
     $text = str_replace('-', ' ', $text);
-    $this->Visitante_Model->search($text);
-    $vars['message'] = $text;
-    $vars['view'] = $this->view('show', TRUE);
+    $datos = $this->Visitante_Model->search($text);
+    $this->helper('tabla');
+    $vars["headers"] = array('Documento', 'Tipo documento', 'Nombres', 'Apellido 1', 'Apellido 2', 'Rol');
+    $vars["data"] = $datos;
+    
+    $vars["view"] = $this->view("resultados", TRUE);
+
     $this->render("content", $vars);
   }
 }

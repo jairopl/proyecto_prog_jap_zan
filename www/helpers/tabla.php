@@ -2,7 +2,7 @@
 if (!function_exists("getAlert")) {
   function makeTable($data, $headers, $editar = TRUE, $eliminar = TRUE, $key = 'identificacion', $class = 'table table-striped') {
     if (empty($data) || !is_array($headers) || !is_array($data)) {
-      return '';
+      return '<p class="well well-large">No hay datos que mostrar.</p>';
     }
     $output = "<table class='$class'><tr>";
     foreach ($headers as $h) {
