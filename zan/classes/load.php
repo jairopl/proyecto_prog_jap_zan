@@ -304,7 +304,12 @@ class ZP_Load
 				} else {
 					$file = "www/applications/". strtolower($parts[0]) ."/models/". strtolower($parts[0]) .".php";
 				}
+			// Cambio hecho por JAP. 22/05/2014
+			} elseif (count($parts) > 2) {
+				$file = "www/applications/". strtolower($parts[0]) ."/models/". strtolower($parts[1]) .".php";
+				$model = $parts[1] . '_' . $parts[2];
 			}
+			// Fin de cambios JAP
 		}
 
 		if (file_exists($file)) {
