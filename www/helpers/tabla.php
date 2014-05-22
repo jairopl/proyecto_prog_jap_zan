@@ -1,6 +1,6 @@
 <?php
 if (!function_exists("makeTable")) {
-  function makeTable($data, $headers, $editar = TRUE, $eliminar = TRUE, $key = 'identificacion', $class = 'table table-striped') {
+  function makeTable($data, $headers, $editar = TRUE, $eliminar = TRUE, $key = 'identificacion', $show_key = TRUE, $class = 'table table-striped') {
     if (empty($data) || !is_array($headers) || !is_array($data)) {
       return '<p class="well well-large">No hay datos que mostrar.</p>';
     }
@@ -14,8 +14,10 @@ if (!function_exists("makeTable")) {
     if (isset($data) && is_array($data)) {
       foreach ($data as $fila) {
         $output .= "<tr>";
-        foreach ($fila as $celda) {
-          $output .= "<td>$celda</td>";
+        foreach ($fila as $k => $celda) {
+          if ($k != $key || $show_key) {
+            $output .= "<td>$celda</td>";
+          }
         }
         if ($editar || $eliminar) {
           $output .= '<td valign="top" align="center">';
@@ -37,7 +39,7 @@ if (!function_exists("makeTable")) {
 
 if (!function_exists("addLinksColumn")) {
   function addLinksColumn($data, $columns, $column_key, $url = '') {
-    if (!is_array($columns) || !is_string($column_key)) {
+    if (!is_array($data) || !is_array($columns) || !is_string($column_key)) {
       return $data;
     }
     $new_data = $data;
