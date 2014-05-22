@@ -99,6 +99,7 @@ class Visitante_Controller extends ZP_Load {
     $datos = $this->Visitante_Model->search($text);
     $this->helper('tabla');
     $vars["headers"] = array('Documento', 'Tipo documento', 'Nombres', 'Apellido 1', 'Apellido 2', 'Rol');
+    $datos = addLinksColumn($datos, array('identificacion', 'nombres'), 'identificacion', 'visitante/editar/');
     $vars["data"] = $datos;
     
     $vars["view"] = $this->view("resultados", TRUE);
