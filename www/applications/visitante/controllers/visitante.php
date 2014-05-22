@@ -18,6 +18,7 @@ class Visitante_Controller extends ZP_Load {
 
     $this->TipoDoc_Model = $this->model("TipoDoc_Model");
     $this->Rol_Model = $this->model("Rol_Model");
+    $this->Acceso_Model = $this->model("Acceso_Model");
   }
 
   public function index() {
@@ -98,11 +99,31 @@ class Visitante_Controller extends ZP_Load {
     $text = str_replace('-', ' ', $text);
     $datos = $this->Visitante_Model->search($text);
     $this->helper('tabla');
-    $vars["headers"] = array('Documento', 'Tipo documento', 'Nombres', 'Apellido 1', 'Apellido 2', 'Rol');
-    $datos = addLinksColumn($datos, array('identificacion', 'nombres'), 'identificacion', 'visitante/editar/');
+    $vars["headers"] = array('Documento', 'Tipo documento', 'Nombres', 'Apellido 1', 'Apellido 2', 'Rol', 'Ultimo acceso');
+    $datos = addLinksColumn($datos,
+      array('identificacion', 'nombres'),
+      'identificacion', 'visitante/historial/');
     $vars["data"] = $datos;
     
     $vars["view"] = $this->view("resultados", TRUE);
+
+    $this->render("content", $vars);
+  }
+
+  public function historial($cc) {
+    $this->helper(array('tabla', 'html'));
+    $visitante = $this->Visitante_Model->getByCC($cc);
+    $vars["visitante"] = $visitante;
+
+    $historial = $this->Acceso_Model->getHistoryByCC($cc);
+    $vars['headers'] = array('Tipo equipo', 'Marca', 'Serie', 'Fecha', 'Hora ingreso', 'Hora salida');
+    
+    $historial = addLinksColumn($historial,
+      array('fecha', 'hora_entra', 'hora_sale'),
+      'idacceso', 'acceso/ver/');
+    $vars["data"] = $historial;
+    
+    $vars["view"] = $this->view("historial", TRUE);
 
     $this->render("content", $vars);
   }
