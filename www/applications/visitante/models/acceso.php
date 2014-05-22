@@ -30,4 +30,9 @@ class Acceso_Model extends ZP_Load {
     //$data = $this->Db->findBy('idvisitante', $cc, $this->table);
     return $data;
   }
+
+  public function getById($id) {
+    $data = $this->Db->find($id, $this->table);
+    return $data;
+  }
 }
