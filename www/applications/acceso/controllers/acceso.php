@@ -15,16 +15,17 @@ class Acceso_Controller extends ZP_Load {
 
 		$this->Templates->theme();
 
-    $this->helper('debugging');
+    $this->helper(array('debugging', 'forms', 'html'));
 
 		$this->Acceso_Model = $this->model("Visitante_Acceso_Model");
 		$this->Visitante_Model = $this->model("Visitante_Visitante_Model");
-		//$this->Equipo_Model = $this->model("Equipo_Equipo_Model");
+		$this->Equipo_Model = $this->model("Equipo_Equipo_Model");
 	}
 	
 	public function index() {	
+		$this->title('Accesos de equipos');
 		$this->helper('tabla');
-		$vars["headers"] = array('Identificacion', 'Equipo', 'Fecha', 'Hora llegada', 'Hora salida');
+		$vars["headers"] = array('Identificacion', 'Equipo', 'Fecha', 'Hora llegada', 'Hora salida', 'Observaciones');
     $datos = $this->Acceso_Model->getAll();
     $datos = addLinksColumn($datos,
       array('fecha', 'hora_entra', 'hora_sale'),
@@ -35,8 +36,7 @@ class Acceso_Controller extends ZP_Load {
 		$this->render("content", $vars);
 	}
 
-	public function ver($acceso) {
-		$this->helper('time');
+	public function ver($acceso, $render = TRUE) {
 		$datos = $this->Acceso_Model->getById($acceso);
 
 		$visitante = $this->Visitante_Model->getByCC($datos['idvisitante']);
@@ -47,14 +47,72 @@ class Acceso_Controller extends ZP_Load {
 		$vars['hora_entrada'] = $datos['hora_entra'];
 		$vars['hora_salida'] = empty($datos['hora_sale']) ? 'No se ha registrado la salida' : $datos['hora_sale'];
 		$vars['observaciones'] = $datos['observaciones'];
+		$vars['idacceso'] = $acceso;
+		$vars['equipo'] = 'Descripcion del equipo';
 		$vars['cerrar'] = empty($datos['hora_sale']);
 
 		$vars["view"]	 = $this->view("vista", TRUE);
 		
+		if ($render) {
+			$this->title("Acceso de " . $vars['nombre_visitante']);
+			$this->render("content", $vars);
+		} else {
+			return $vars;
+		}
+	}
+
+	public function ingreso($tipo = NULL, $id = NULL) {
+		$this->title("Ingreso de equipo");
+		$this->helper(array('html', 'forms'));
+
+		$visitantes = $this->Visitante_Model->getAllAutocomplete();
+		$script = 'listaVisitantes = ' . json_encode($visitantes) . 
+		';
+$( "#identificacion" ).autocomplete({
+source: listaVisitantes,
+appendTo: "#autocomplete_identificacion"
+});';
+
+		$equipos = $this->Equipo_Model->getAllAutocomplete();
+		$script .= 'listaEquipos = ' . json_encode($equipos) . 
+		';
+$( "#equipo" ).autocomplete({
+source: listaEquipos,
+appendTo: "#autocomplete_equipo"
+});';
+
+	$vars['script'] = '$(function() {' . $script . '});';
+
+		if ($tipo == 'visitante') {
+			$vars['visitante'] = $id;
+		} elseif ($tipo == 'equipo') {
+			$vars['equipo'] = $id;
+		}
+
+		$vars["view"]	 = $this->view("ingreso", TRUE);
+		
 		$this->render("content", $vars);
 	}
 
-	public function ingreso($tipo, $id) {
+	public function salida($idacceso) {
+		$this->title("Confirmar salida de equipo");
+		$vars = $this->ver($idacceso, FALSE);
+		$vars["view"]	 = $this->view("salida", TRUE);
 		
+		$this->render("content", $vars);
 	}
+
+  public function guardar() {
+  	if (POST('guardar')) {
+      //guardar registro
+      $this->Acceso_Model->saveInput();
+    } elseif (POST('salida')) {
+    	$this->Acceso_Model->saveOutput();
+    } elseif (POST('cancel')) {
+      redirect('acceso');
+    } else {
+      redirect('acceso/agregar');
+    }
+    // showAlert("El registro se guardó satisfactoriamente.", 'index');
+  }	
 }

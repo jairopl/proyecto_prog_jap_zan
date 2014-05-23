@@ -1,13 +1,4 @@
-<div>
-<?php 
-if (!empty($cerrar)) {
-  $output = a('Registrar salida', _get("webBase") . '/acceso/salida/' . $idacceso, FALSE,
-    array('class' => 'btn btn-warning btn-large'));
-  print $output;
-}
-?>
-<a href="<?php print _get("webBase"); ?>/acceso" class="btn btn-success btn-large">Atrás</a>
-</div>
+Confirma la salida de:
 <div class="row-fluid">
 <h4 class="span5">Visitante:</h4><span class="span7"><?php print $nombre_visitante; ?></span>
 </div>
@@ -26,3 +17,16 @@ if (!empty($cerrar)) {
 <div class="row-fluid">
 <h4 class="span5">Observaciones:</h4><span class="span7"><?php print $observaciones; ?></span>
 </div>
+<?php
+  print formOpen("acceso/guardar");
+  $output = formInput(array(
+      'name'  => 'idacceso',
+      'type'  => 'hidden',
+      'value' => $idacceso,
+      ));
+  print $output;
+
+  print formAction("salida");
+
+  print formClose();
+?>

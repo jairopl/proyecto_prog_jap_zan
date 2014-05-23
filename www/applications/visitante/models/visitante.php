@@ -16,6 +16,14 @@ class Visitante_Model extends ZP_Load {
 		$this->table = "visitante";
 	}
 
+	public function getAllAutocomplete() {
+		//$data = $this->Db->findAll($this->table);
+
+    $this->Db->select("identificacion AS value, CONCAT(nombres, ' ', apellido1, ' (', tipo_doc, ' ', identificacion, ')') AS label");
+    $data = $this->Db->get($this->table);
+		return $data;
+	}
+
 	public function getTableData() {
 		//$data = $this->Db->findAll($this->table);
 
