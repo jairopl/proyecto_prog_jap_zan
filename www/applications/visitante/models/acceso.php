@@ -43,7 +43,6 @@ class Acceso_Model extends ZP_Load {
     } elseif (!POST("equipo")) {
       showAlert("No seleccionó el equipo que ingresa.", 'acceso/ingreso');
     }
-    // TODO: validar que el equipo no este adentro
     $consultar = $this->getOpenAccess(POST('equipo'));
     if (!empty($consultar)) {
       showAlert("El equipo ya se encuentra ingresado", 'acceso/ingreso');

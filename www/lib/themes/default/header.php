@@ -46,11 +46,14 @@
                 <a href="<?php print _get("webBase"); ?>/visitante">Visitante</a>
               </li>
               <li class="">
-                <a href="<?php print _get("webBase"); ?>/equipos">Equipos</a>
+                <a href="<?php print _get("webBase"); ?>/equipo">Equipos</a>
               </li>
+              <?php if (false) { ?>
+
               <li class="">
                 <a href="<?php print _get("webBase"); ?>/usuarios">Usuario del sistema</a>
               </li>
+              <?php } ?>
             </ul>
           </div>
         </div>

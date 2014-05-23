@@ -44,4 +44,19 @@ class Default_Controller extends ZP_Load {
 		#$this->view("show", $vars);
 	}
 
+	public function exportar($tipo) {
+		$args = func_get_args();
+		____($args);
+    $path = str_replace(_get("webURL"), "", getURL());
+    $segmentos = explode('/', $path);
+    if (empty($segmentos)) {
+      return '';
+    }
+    $app = $segmentos[0];
+    $metod = isset($segmentos[1]) ? $segmentos[1] : '';
+    if (isset($segmentos[1])) {unset($segmentos[1]);}
+    unset($segmentos[0]);
+    $args = $segmentos;
+	}
+
 }

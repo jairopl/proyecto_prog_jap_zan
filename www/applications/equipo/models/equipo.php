@@ -15,13 +15,21 @@ class Equipo_Model extends ZP_Load {
 
   }
 
-  public function getAll() {
-    $data = $this->Db->findAll($this->table);
+  public function getTableData() {
+    $this->Db->join('tipoequipo te', 'te.idtipoequipo = e.tipoequipo');
+    $this->Db->join('marca m', 'm.idmarca = e.marca');
+    $this->Db->join('visitante v', 'v.identificacion = e.idvisitante');
+    $this->Db->select("e.idequipo, te.tipoequipo, m.marca, e.serie, e.cod_barras, CONCAT(nombres, ' ', apellido1)");
+    $data = $this->Db->get($this->table);
     return $data;
   }
   
   public function getById($id) {
     // TODO: buscar equipo por Id. Tomar como referencia la consulta getHistoryByCC de acceso.
+    $this->Db->join('tipoequipo te', 'te.idtipoequipo = e.tipoequipo');
+    $this->Db->join('marca m', 'm.idmarca = e.marca');
+    $data = $this->Db->get($this->table);
+    return $data;
   }
 
   public function getAllAutocomplete() {

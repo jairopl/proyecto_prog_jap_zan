@@ -11,7 +11,7 @@ class Visitante_Controller extends ZP_Load {
   public function __construct() {
     $this->app("visitante");
 
-    $this->helper('debugging');
+    $this->helper(array('debugging', 'router'));
 
     $this->Templates = $this->core("Templates");
 
@@ -24,19 +24,24 @@ class Visitante_Controller extends ZP_Load {
     $this->Acceso_Model = $this->model("Acceso_Model");
   }
 
-  public function index() {
-    $this->lista();
+  public function index($export = FALSE) {
+    $this->lista($export);
   }
   
-  public function lista() {
+  public function lista($export = FALSE) {
     $this->helper('tabla');
     $vars["headers"] = array('Documento', 'Tipo documento', 'Nombres', 'Apellido', 'Rol', 'Teléfono');
     $datos = $this->Visitante_Model->getTableData();
     $vars["data"] = $datos;
     
-    $vars["view"] = $this->view("tabla_datos", TRUE);
+    if (!empty($export)) {
+      exportToFile('xls', $datos, $vars['headers']);
+    } else {
+      $vars["view"] = $this->view("tabla_datos", TRUE);
 
-    $this->render("content", $vars);
+      $this->title("Lista de visitantes");
+      $this->render("content", $vars);
+    }
   }
   
   public function agregar() {
