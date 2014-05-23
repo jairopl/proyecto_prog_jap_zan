@@ -17,7 +17,7 @@ class Acceso_Model extends ZP_Load {
   }
 
   public function getAll() {
-    $data = $this->Db->findAll($this->table);
+    $data = $this->Db->findAll($this->table, '*', NULL, 'fecha DESC, hora_entra DESC');
     return $data;
   }
   
@@ -33,6 +33,6 @@ class Acceso_Model extends ZP_Load {
 
   public function getById($id) {
     $data = $this->Db->find($id, $this->table);
-    return $data;
+    return $data[0];
   }
 }

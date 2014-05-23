@@ -1,15 +1,15 @@
 <?php
 if (!function_exists("makeTable")) {
-  function makeTable($data, $headers, $editar = TRUE, $eliminar = TRUE, $key = 'identificacion', $show_key = TRUE, $class = 'table table-striped') {
+  function makeTable($data, $headers, $editar = TRUE, $eliminar = TRUE, $key = 'identificacion', $show_key = TRUE, $use_jquery = TRUE, $class = 'table table-striped') {
     if (empty($data) || !is_array($headers) || !is_array($data)) {
       return '<p class="well well-large">No hay datos que mostrar.</p>';
     }
-    $output = "<table class='$class'><tr>";
+    $output = "<table class='$class'><thead><tr>";
     foreach ($headers as $h) {
       $output .= "<th>$h</th>";
     }
     if ($editar || $eliminar) {$output .= "<th></th>";}
-    $output .= '</tr>';
+    $output .= '</tr></thead><tbody>';
     $icons_dir = _get("webURL") . '/www/lib/images/icons/';
     if (isset($data) && is_array($data)) {
       foreach ($data as $fila) {
@@ -32,7 +32,21 @@ if (!function_exists("makeTable")) {
         $output .= "</tr>";
       }
     }
-    $output .= "</table>";
+    $output .= "</tbody></table>";
+    $class = '.' . str_replace(' ', '.', $class);
+    if ($use_jquery) {
+      $output .= "
+<script src=" . path("vendors/js/jquery/jquery.dataTables.js", "zan") . " type='text/javascript'></script>
+      <script type='text/javascript' charset='utf-8'>
+        $(document).ready(function() {
+          $('$class').dataTable( {
+          'aaSorting': [[ 1, 'asc' ]],
+        } );
+        });
+      </script>";
+      
+    }
+
     return $output;
   }
 }

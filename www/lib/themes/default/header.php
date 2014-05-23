@@ -4,8 +4,13 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<title><?php echo $this->getTitle(); ?></title>
 		
-		<link href="<?php echo path("vendors/css/frameworks/bootstrap/bootstrap.min.css", "zan"); ?>" rel="stylesheet">
+		<link href="<?php echo path("vendors/css/jquery-tables/demo_page.css", "zan"); ?>" rel="stylesheet">
+    <link href="<?php echo path("vendors/css/jquery-tables/demo_table.css", "zan"); ?>" rel="stylesheet">
+    <link href="<?php echo path("vendors/css/frameworks/bootstrap/bootstrap.min.css", "zan"); ?>" rel="stylesheet">
 		<link href="<?php echo $this->themePath; ?>/css/style.css" rel="stylesheet">
+
+    <script src="<?php echo path("vendors/js/jquery/jquery.js", "zan"); ?>" type="text/javascript"></script>
+    <script src="<?php echo path("vendors/js/jquery/jquery-ui.min.js", "zan"); ?>" type="text/javascript"></script>
 		
 		<?php echo $this->getCSS(); ?>
 		
@@ -32,6 +37,9 @@
               </li>
               <li class="">
                 <a href="<?php print _get("webBase"); ?>">Inicio</a>
+              </li>
+              <li class="">
+                <a href="<?php print _get("webBase"); ?>/acceso">Accesos</a>
               </li>
               <li class="">
                 <a href="<?php print _get("webBase"); ?>/visitante">Visitante</a>
