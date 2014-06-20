@@ -39,6 +39,7 @@
               <li class="">
                 <a href="<?php print _get("webBase"); ?>">Inicio</a>
               </li>
+            <?php if (isConnected()) { ?>
               <li class="">
                 <a href="<?php print _get("webBase"); ?>/acceso">Accesos</a>
               </li>
@@ -54,6 +55,10 @@
                 <a href="<?php print _get("webBase"); ?>/usuarios">Usuario del sistema</a>
               </li>
               <?php } ?>
+              <li class="">
+                <a href="<?php print _get("webBase"); ?>/logout">Cerrar sesión</a>
+              </li>
+            <?php } ?>
             </ul>
           </div>
         </div>

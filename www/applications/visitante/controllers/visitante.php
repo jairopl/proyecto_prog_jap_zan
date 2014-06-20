@@ -25,10 +25,12 @@ class Visitante_Controller extends ZP_Load {
   }
 
   public function index($export = FALSE) {
+    isConnected('');
     $this->lista($export);
   }
   
   public function lista($export = FALSE) {
+    isConnected('');
     $this->helper('tabla');
     $vars["headers"] = array('Documento', 'Tipo documento', 'Nombres', 'Apellido', 'Rol', 'Teléfono');
     $datos = $this->Visitante_Model->getTableData();
@@ -45,6 +47,7 @@ class Visitante_Controller extends ZP_Load {
   }
   
   public function agregar() {
+    isConnected('');
     $this->helper(array('forms', 'html'));
 
     $vars["tipo_doc"] = $this->TipoDoc_Model->getDataForSelect('CC');
@@ -57,6 +60,7 @@ class Visitante_Controller extends ZP_Load {
   }
 
   public function guardar() {
+    isConnected('');
     if (POST('guardar')) {
       //guardar registro
       $this->Visitante_Model->save();
@@ -69,6 +73,7 @@ class Visitante_Controller extends ZP_Load {
   }
 
   public function editar($cc = NULL) {
+    isConnected('');
     if (empty($cc)) redirect('visitante/lista');
 
     $this->helper(array('forms', 'html'));
@@ -87,6 +92,7 @@ class Visitante_Controller extends ZP_Load {
   }
 
   public function eliminar($cc) {
+    isConnected('');
     $this->helper(array('forms', 'html'));
     $datos = $this->Visitante_Model->getByCC($cc);
 
@@ -104,6 +110,7 @@ class Visitante_Controller extends ZP_Load {
   }
 
   public function buscar($text) {
+    isConnected('');
     $text = str_replace('-', ' ', $text);
     $datos = $this->Visitante_Model->search($text);
     $this->helper('tabla');
@@ -119,6 +126,7 @@ class Visitante_Controller extends ZP_Load {
   }
 
   public function historial($cc) {
+    isConnected('');
     $this->helper(array('tabla', 'html'));
     $visitante = $this->Visitante_Model->getByCC($cc);
     $vars["visitante"] = $visitante;

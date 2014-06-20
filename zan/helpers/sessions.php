@@ -70,10 +70,15 @@ if (!function_exists("isAdmin")) {
 }
 
 if (!function_exists("isConnected")) {
-	function isConnected($URL = false)
+	function isConnected($URL = NULL)
 	{
-		if (!SESSION("ZanUser")) {			
-			redirect(($URL !== false) ? $URL : path("users/login/?return_to=". urlencode(getURL())));
+		if (!SESSION("ZanUser")) {
+			// Cambio hecho por JAP. 23/05/2014
+			if (!is_null($URL)) {
+				redirect(($URL !== false) ? $URL : path("users/login/?return_to=". urlencode(getURL())));
+			}
+			return false;
+			// fin del cambio
 		} 
 
 		return true;

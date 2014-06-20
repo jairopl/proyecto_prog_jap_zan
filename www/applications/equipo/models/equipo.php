@@ -28,8 +28,10 @@ class Equipo_Model extends ZP_Load {
     // TODO: buscar equipo por Id. Tomar como referencia la consulta getHistoryByCC de acceso.
     $this->Db->join('tipoequipo te', 'te.idtipoequipo = e.tipoequipo');
     $this->Db->join('marca m', 'm.idmarca = e.marca');
+    $this->Db->select("e.idequipo, idvisitante, te.tipoequipo, m.marca, e.serie, e.cod_barras, m.idmarca, te.idtipoequipo");
+    $this->Db->where("idequipo=$id");
     $data = $this->Db->get($this->table);
-    return $data;
+    return $data[0];
   }
 
   public function getAllAutocomplete() {
@@ -38,10 +40,13 @@ class Equipo_Model extends ZP_Load {
     // idequipo   idvisitante   tipoequipo  marca   serie   cod_barras 
     $this->Db->join('tipoequipo te', 'te.idtipoequipo = e.tipoequipo');
     $this->Db->join('marca m', 'm.idmarca = e.marca');
-    $this->Db->select("idequipo, te.tipoequipo, m.marca");
+    // $this->Db->select("idequipo, te.tipoequipo, m.marca");
     $this->Db->select("idequipo AS value, CONCAT(te.tipoequipo, ' ', m.marca, ' ', serie) AS label");
     $data = $this->Db->get($this->table);
     return $data;
   }
 
+  public function save() {
+    # code...
+  }
 }

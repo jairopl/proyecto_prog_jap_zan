@@ -20,16 +20,20 @@ class Equipo_Controller extends ZP_Load {
     $this->Equipo_Model = $this->model("Equipo_Model");
     $this->Visitante_Model = $this->model("Visitante_Model");
 
-    $this->TipoDoc_Model = $this->model("TipoDoc_Model");
-    $this->Rol_Model = $this->model("Rol_Model");
+    $this->Marca_Model = $this->model("Marca_Model");
+    $this->Tipoequipo_Model = $this->model("Tipoequipo_Model");
+
+    // Por borrar
     $this->Acceso_Model = $this->model("Acceso_Model");
   }
 
   public function index($export = FALSE) {
+    isConnected('');
     $this->lista($export);
   }
   
   public function lista($export = FALSE) {
+    isConnected('');
     $this->helper('tabla');
     $vars["headers"] = array('Tipo equipo', 'Marca', 'Serie', 'Codigo barras', 'Registrado por');
     $datos = $this->Equipo_Model->getTableData();
@@ -46,11 +50,22 @@ class Equipo_Controller extends ZP_Load {
   }
   
   public function agregar() {
+    isConnected('');
     $this->helper(array('forms', 'html'));
 
-    $vars["tipo_doc"] = $this->TipoDoc_Model->getDataForSelect('CC');
+    // Datos de los SELECT (html)
+    $vars["marcas"] = $this->Marca_Model->getDataForSelect();
+    $vars["tipos_equipos"] = $this->Tipoequipo_Model->getDataForSelect();
 
-    $vars["roles"] = $this->Rol_Model->getDataForSelect(1);
+    $visitantes = $this->Visitante_Model->getAllAutocomplete();
+    $script = 'listaVisitantes = ' . json_encode($visitantes) . 
+    ';
+$( "#visitante" ).autocomplete({
+source: listaVisitantes,
+appendTo: "#autocomplete_visitante"
+});';
+
+    $vars['script'] = '$(function() {' . $script . '});';
 
     $vars["view"]  = $this->view("editar", TRUE);
     
@@ -58,68 +73,48 @@ class Equipo_Controller extends ZP_Load {
   }
 
   public function guardar() {
+    isConnected('');
     if (POST('guardar')) {
       //guardar registro
-      $this->Visitante_Model->save();
+      $this->Equipo_Model->save();
     } elseif (POST('cancel')) {
-      redirect('visitante');
+      redirect('equipo');
     } else {
-      redirect('visitante/agregar');
+      redirect('equipo/agregar');
     }
     // showAlert("El registro se guardó satisfactoriamente.", 'index');
   }
 
-  public function editar($cc = NULL) {
-    if (empty($cc)) redirect('visitante/lista');
+  public function editar($id = NULL) {
+    isConnected('');
+    if (empty($id)) redirect('visitante/lista');
 
     $this->helper(array('forms', 'html'));
-    $datos = $this->Visitante_Model->getByCC($cc);
-    
+    $datos = $this->Equipo_Model->getById($id);
     $vars["datos"] = $datos;
     $vars['editar'] = TRUE;
 
-    $vars["tipo_doc"] = $this->TipoDoc_Model->getDataForSelect($datos['tipo_doc']);
+    // Datos de los SELECT (html)
+    $vars["marcas"] = $this->Marca_Model->getDataForSelect($datos['idmarca']);
+    $vars["tipos_equipos"] = $this->Tipoequipo_Model->getDataForSelect($datos['idtipoequipo']);
 
-    $vars["roles"] = $this->Rol_Model->getDataForSelect($datos['tipo_user']);
+    $visitantes = $this->Visitante_Model->getAllAutocomplete();
+    $script = 'listaVisitantes = ' . json_encode($visitantes) . 
+    ';
+$( "#visitante" ).autocomplete({
+source: listaVisitantes,
+appendTo: "#autocomplete_visitante"
+});';
+
+    $vars['script'] = '$(function() {' . $script . '});';
 
     $vars["view"]  = $this->view("editar", TRUE);
     
     $this->render("content", $vars);
   }
 
-  public function eliminar($cc) {
-    $this->helper(array('forms', 'html'));
-    $datos = $this->Visitante_Model->getByCC($cc);
-
-    if (POST('eliminar')) {
-      $this->Visitante_Model->delete($cc);
-    } elseif (POST('cancel')) {
-      redirect("visitante");
-    } else {
-      $vars['action'] = "eliminar a {$datos['nombres']} {$datos['apellido1']} {$datos['apellido2']} ({$datos['identificacion']})";
-      $vars['url'] = 'visitante/eliminar/' . $cc;
-      $vars["view"]  = $this->view("confirmacion", TRUE);
-      
-      $this->render("content", $vars);
-    }
-  }
-
-  public function buscar($text) {
-    $text = str_replace('-', ' ', $text);
-    $datos = $this->Visitante_Model->search($text);
-    $this->helper('tabla');
-    $vars["headers"] = array('Documento', 'Tipo documento', 'Nombres', 'Apellido 1', 'Apellido 2', 'Rol', 'Ultimo acceso');
-    $datos = addLinksColumn($datos,
-      array('identificacion', 'nombres'),
-      'identificacion', 'visitante/historial/');
-    $vars["data"] = $datos;
-    
-    $vars["view"] = $this->view("resultados", TRUE);
-
-    $this->render("content", $vars);
-  }
-
   public function historial($cc) {
+    isConnected('');
     $this->helper(array('tabla', 'html'));
     $visitante = $this->Visitante_Model->getByCC($cc);
     $vars["visitante"] = $visitante;

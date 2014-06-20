@@ -1,93 +1,71 @@
-    <?php
-    print formOpen("visitante/guardar");
-    
-    if (!empty($editar)) {
-        $output = formInput(array(
-            'name'  => 'editar',
-            'type'  => 'hidden',
-            'value' => '1',
-            ));
-        print $output;
-    }
+<?php
+print "<script type='text/javascript'>$script</script>";
+print formOpen("equipo/guardar");
 
-    $output = formLabel('identificacion', 'Número identificación', FALSE); 
-    $doc_input = array(
-        'class'     => 'form-control',
-        'id'        => 'identificacion',
-        'maxlength' => '15',
-        'name'      => 'identificacion',
-        'required'  => 'required',
-        'type'      => 'text',
-        'value'     => isset($datos['identificacion']) ? $datos['identificacion'] : '',
-        );
-    if (!empty($editar)) { $doc_input['readonly'] = 'readonly'; }
-    $output .= formInput($doc_input);
-    $field_div = div('form-group', NULL, NULL, $output);
-    print $field_div;
-
-    // tipo_documento
-    $output = formLabel('tipo_documento', 'Tipo documento', FALSE); 
-    $output .= formSelect(array('id' => 'tipo_documento', 'name' => 'tipo_documento'),
-        $tipo_doc);
-    $field_div = div('form-group', NULL, NULL, $output);
-    print $field_div;
-
-    $output = formLabel('nombres', 'Nombres', FALSE); 
-    $output .= formInput(array(
-        'class'    => 'form-control',
-        'id'       => 'nombres',
-        'name'     => 'nombres',
-        'required' => 'required',
-        'type'     => 'text',
-        'value'    => isset($datos['nombres']) ? $datos['nombres'] : '',
+if (!empty($editar)) {
+    $output = formInput(array(
+        'name'  => 'editar',
+        'type'  => 'hidden',
+        'value' => '1',
         ));
-    $field_div = div('form-group', NULL, NULL, $output);
-    print $field_div;
-
-    $output = formLabel('apellido1', 'Apellido 1', FALSE); 
     $output .= formInput(array(
-        'class'    => 'form-control',
-        'id'       => 'apellido1',
-        'name'     => 'apellido1',
-        'required' => 'required',
-        'type'     => 'text',
-        'value'    => isset($datos['apellido1']) ? $datos['apellido1'] : '',
+        'name'  => 'idequipo',
+        'type'  => 'hidden',
+        'value' => $datos['idequipo'],
         ));
-    $field_div = div('form-group', NULL, NULL, $output);
-    print $field_div;
+    print $output;
+}
 
-    $output = formLabel('apellido2', 'Apellido 2', FALSE); 
-    $output .= formInput(array(
-        'class'    => 'form-control',
-        'id'       => 'apellido2',
-        'name'     => 'apellido2',
-        'required' => 'required',
-        'type'     => 'text',
-        'value'    => isset($datos['apellido2']) ? $datos['apellido2'] : '',
-        ));
-    $field_div = div('form-group', NULL, NULL, $output);
-    print $field_div;
+$output = formLabel('visitante', 'Visitante', FALSE); 
+$output .= formInput(array(
+    'class'   => 'form-control',
+    'id'      => 'visitante',
+    'name'    => 'visitante',
+    // 'type' => 'text',
+    'value'   => isset($datos['idvisitante']) ? $datos['idvisitante'] : '',
+    ));
+$output .= "<div id='autocomplete_visitante' style='position: relative;'></div>";
+$field_div = div('form-group ui-widget', NULL, NULL, $output);
+print $field_div;
 
-    $output = formLabel('telefono', 'Teléfono', FALSE); 
-    $output .= formInput(array(
-        'class' => 'form-control',
-        'id'    => 'telefono',
-        'name'  => 'telefono',
-        'type'  => 'text',
-        'value' => isset($datos['telefono']) ? $datos['telefono'] : '',
-        ));
-    $field_div = div('form-group', NULL, NULL, $output);
-    print $field_div;
 
-    // Rol
-    // tipo_documento
-    $output = formLabel('rol_usuario', 'Rol', FALSE); 
-    $output .= formSelect(array('id' => 'rol_usuario', 'name' => 'rol_usuario'),
-        $roles);
-    $field_div = div('form-group', NULL, NULL, $output);
-    print $field_div;
+// Tipo equipos
+$output = formLabel('tipoequipo', 'Tipo de equipo', FALSE); 
+$output .= formSelect(array('id' => 'tipoequipo', 'name' => 'tipoequipo'),
+    $tipos_equipos);
+$field_div = div('form-group', NULL, NULL, $output);
+print $field_div;
 
-    print formAction("guardar");
+// Marcas
+$output = formLabel('marca', 'Marcas', FALSE); 
+$output .= formSelect(array('id' => 'marca', 'name' => 'marca'),
+    $marcas);
+$field_div = div('form-group', NULL, NULL, $output);
+print $field_div;
 
-    print formClose();
+$output = formLabel('serie', 'Serie', FALSE); 
+$output .= formInput(array(
+    'class'    => 'form-control',
+    'id'       => 'serie',
+    'name'     => 'serie',
+    'type'     => 'text',
+    'value'    => isset($datos['serie']) ? $datos['serie'] : '',
+    ));
+$field_div = div('form-group', NULL, NULL, $output);
+print $field_div;
+
+$output = formLabel('cod_barras', 'Codigo de barras', FALSE); 
+$output .= formInput(array(
+    'class'    => 'form-control',
+    'id'       => 'cod_barras',
+    'name'     => 'cod_barras',
+    'type'     => 'text',
+    'value'    => isset($datos['cod_barras']) ? $datos['cod_barras'] : '',
+    ));
+$field_div = div('form-group', NULL, NULL, $output);
+print $field_div;
+
+print formAction("guardar");
+
+print formClose();
 ?>

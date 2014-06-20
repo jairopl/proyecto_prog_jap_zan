@@ -13,27 +13,29 @@ class Default_Controller extends ZP_Load {
 
 		$this->Templates->theme();
 
-    $this->helper('debugging');
+    $this->helper(array('debugging'));
 
-		#$this->Default_Model = $this->model("Default_Model");
+		$this->Login_Model = $this->model("Login_Model");
 	}
 	
-	public function index() {	
-		if (POST("buscar")) {
-			$by = POST("by_visitant");
-			$by = str_replace(' ', '-', $by);
-			redirect("visitante/buscar/" . $by);
-		} else {
-			$this->helper(array('forms', 'html'));
-
-			$vars["view"]	 = $this->view("inicio", TRUE);
+	public function index() {
+    $this->helper(array("html", "forms"));
+    if (POST("buscar")) {
+      $by = POST("by_visitant");
+      $by = str_replace(' ', '-', $by);
+      redirect("visitante/buscar/" . $by);
+    } elseif (POST("login")) {
+      $this->Login_Model->checkUserCredentials();
+    } else {
+      $this->helper(array('forms', 'html'));
+      if (isConnected()) {
+        $vars["view"]  = $this->view("inicio", TRUE);
+      } else {
+        $vars["view"]	 = $this->view("login", TRUE);
+      }
 			
 			$this->render("content", $vars);
 		}
-	}
-
-	public function test($param1 = "Hola", $param2 = "Adios") {
-		print "New dispatcher it's works fine: $param1, $param2";
 	}
 
 	public function show($message) {
@@ -59,4 +61,7 @@ class Default_Controller extends ZP_Load {
     $args = $segmentos;
 	}
 
+  public function logout() {
+    unsetSessions();
+  }
 }

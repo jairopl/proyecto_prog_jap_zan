@@ -22,7 +22,8 @@ class Acceso_Controller extends ZP_Load {
 		$this->Equipo_Model = $this->model("Equipo_Equipo_Model");
 	}
 	
-	public function index() {	
+	public function index() {
+    isConnected('');
 		$this->title('Accesos de equipos');
 		$this->helper('tabla');
 		$vars["headers"] = array('Identificacion', 'Equipo', 'Fecha', 'Hora llegada', 'Hora salida', 'Observaciones');
@@ -37,6 +38,7 @@ class Acceso_Controller extends ZP_Load {
 	}
 
 	public function ver($acceso, $render = TRUE) {
+    isConnected('');
 		$datos = $this->Acceso_Model->getById($acceso);
 
 		$visitante = $this->Visitante_Model->getByCC($datos['idvisitante']);
@@ -62,6 +64,7 @@ class Acceso_Controller extends ZP_Load {
 	}
 
 	public function ingreso($tipo = NULL, $id = NULL) {
+    isConnected('');
 		$this->title("Ingreso de equipo");
 		$this->helper(array('html', 'forms'));
 
@@ -95,6 +98,7 @@ appendTo: "#autocomplete_equipo"
 	}
 
 	public function salida($idacceso) {
+    isConnected('');
 		$this->title("Confirmar salida de equipo");
 		$vars = $this->ver($idacceso, FALSE);
 		$vars["view"]	 = $this->view("salida", TRUE);
@@ -103,6 +107,7 @@ appendTo: "#autocomplete_equipo"
 	}
 
   public function guardar() {
+    isConnected('');
   	if (POST('guardar')) {
       //guardar registro
       $this->Acceso_Model->saveInput();

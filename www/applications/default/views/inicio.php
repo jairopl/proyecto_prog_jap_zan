@@ -1,4 +1,4 @@
-<h1>Buscador</h1>
+<h2>Buscador por visitante</h2>
 <?php 
     print formOpen("");
 
@@ -6,7 +6,7 @@
         'class'       => 'form-control input-xxlarge',
         'id'          => 'by_visitant',
         'name'        => 'by_visitant',
-        'placeholder' => 'Buscar por nombre visitante',
+        'placeholder' => 'Buscar por nombre o documento del visitante',
         'type'        => 'text',
         ));
     $field_div = div('form-group', NULL, NULL, $output);
